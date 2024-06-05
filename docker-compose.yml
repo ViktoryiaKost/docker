@@ -12,10 +12,12 @@ services:
       - php-fpm
     command: /bin/sh -c "chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html && nginx -g 'daemon off;'"
   php-fpm:
-    image: php:8-fpm
+    build: .
+    container_name: php
     volumes:
       - ./src:/var/www/html
-    command: /bin/sh -c "chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html && php-fpm"
+      - ./vendor:/var/www/html/vendor
+      - ./composer.json:/var/www/html/composer.json
 
   db:
     container_name: db
